@@ -4,6 +4,7 @@ public final class Task2 {
     private Task2() {
     }
 
+    @SuppressWarnings("MagicNumber")
     public static int countDigits(int number) {
         var unSignedNumber = Math.abs(number);
         var digits = 1;

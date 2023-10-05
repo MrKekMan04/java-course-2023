@@ -18,6 +18,7 @@ public final class Task8 {
         return true;
     }
 
+    @SuppressWarnings("MagicNumber")
     private static boolean isAttackAnotherKnight(int[][] board, int knightX, int knightY) {
         var delta1 = new int[] {-1, 1};
         var delta2 = new int[] {-2, 2};
