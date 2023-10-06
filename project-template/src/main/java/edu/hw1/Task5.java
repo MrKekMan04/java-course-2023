@@ -6,6 +6,7 @@ public final class Task5 {
 
     public static boolean isPalindromeDescendant(int number) {
         var stringyNumber = String.valueOf(number);
+
         return isPalindrome(stringyNumber) || isPalindromeDescendant(getDescendant(stringyNumber));
     }
 
@@ -23,8 +24,8 @@ public final class Task5 {
         var builder = new StringBuilder();
 
         for (int i = 0; i < stringyNumber.length() - 1; i += 2) {
-            builder.append(Integer.parseInt(String.valueOf(stringyNumber.charAt(i)))
-                + Integer.parseInt(String.valueOf(stringyNumber.charAt(i + 1))));
+            builder.append(Character.getNumericValue(stringyNumber.charAt(i))
+                + Character.getNumericValue(stringyNumber.charAt(i + 1)));
         }
 
         if (stringyNumber.length() % 2 == 1) {

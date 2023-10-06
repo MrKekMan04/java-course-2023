@@ -22,7 +22,7 @@ public class Task1Test {
             var minutes = random.nextInt(200);
             var seconds = random.nextInt(60);
 
-            test(minutes, seconds, minutes * 60 + seconds);
+            assertEquals(Task1.minutesToSeconds("%d:%d".formatted(minutes, seconds)), minutes * 60 + seconds);
         }
     }
 
@@ -33,7 +33,7 @@ public class Task1Test {
         for (var i = 0; i < randomTestIterations; i++) {
             var seconds = random.nextInt(60);
 
-            test(minutes, seconds, -1);
+            assertEquals(Task1.minutesToSeconds("%d:%d".formatted(minutes, seconds)), -1);
         }
     }
 
@@ -44,7 +44,7 @@ public class Task1Test {
         for (var i = 0; i < randomTestIterations; i++) {
             var minutes = random.nextInt(60);
 
-            test(minutes, seconds, -1);
+            assertEquals(Task1.minutesToSeconds("%d:%d".formatted(minutes, seconds)), -1);
         }
 
         seconds = 60;
@@ -52,11 +52,16 @@ public class Task1Test {
         for (var i = 0; i < randomTestIterations; i++) {
             var minutes = random.nextInt(60);
 
-            test(minutes, seconds, -1);
+            assertEquals(Task1.minutesToSeconds("%d:%d".formatted(minutes, seconds)), -1);
         }
     }
 
-    private void test(int minutes, int seconds, int actual) {
-        assertEquals(Task1.minutesToSeconds("%d:%d".formatted(minutes, seconds)), actual);
+    @Test
+    public void invalidInputTest() {
+        assertEquals(Task1.minutesToSeconds(null), -1);
+        assertEquals(Task1.minutesToSeconds("null"), -1);
+        assertEquals(Task1.minutesToSeconds(":"), -1);
+        assertEquals(Task1.minutesToSeconds("::::"), -1);
+        assertEquals(Task1.minutesToSeconds("invalid:invalid"), -1);
     }
 }
