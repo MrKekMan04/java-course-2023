@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
-class Task3Test {
+public class Task3Test {
     @Test
     public void connectionManagersTest() {
         assertTrue(new FaultyConnectionManager().getConnection() instanceof FaultyConnection);
