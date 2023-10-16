@@ -22,7 +22,7 @@ public class Task3Test {
         var someFaultyConnectionThrown = false;
 
         for (int i = 0; i < 10_000; i++) {
-            try (var connection = new FaultyConnection()){
+            try (var connection = new FaultyConnection()) {
                 connection.execute("");
             } catch (Exception ignored) {
                 someFaultyConnectionThrown = true;
