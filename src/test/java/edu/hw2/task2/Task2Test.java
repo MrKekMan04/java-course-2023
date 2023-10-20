@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Task2Test {
     @Test
-    public void rectangleTest() {
+    public void assertThatRectangleTransformationReturnedRightAreaTest() {
         var rectangle = new Rectangle(10, 20);
 
         assertEquals(rectangle.calculateArea(), 200);
@@ -18,7 +18,7 @@ public class Task2Test {
     }
 
     @Test
-    public void squareTest() {
+    public void assertThatSquareTransformationReturnedRightAreaTest() {
         var square = (Rectangle) new Square(10);
 
         assertEquals(square.calculateArea(), 100);

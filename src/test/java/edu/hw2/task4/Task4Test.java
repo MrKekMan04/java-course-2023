@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Task4Test {
     @Test
-    public void callingInfoTest() {
+    public void assertThatCallingInfoContainsContainsSelfMethodCallTest() {
         var callingInfos = Task4.callingInfo();
         var callingMethod = new CallingInfo(Task4.class.getName(), Task4.class.getMethods()[0].getName());
 
