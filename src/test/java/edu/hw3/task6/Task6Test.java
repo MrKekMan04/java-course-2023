@@ -25,7 +25,7 @@ public class Task6Test {
     public void assertThatNullStockThrowException() {
         StockMarketImpl market = new StockMarketImpl();
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> market.add(null));
-        assertThrowsExactly(IllegalArgumentException.class, () -> market.remove(null));
+        assertThrows(NullPointerException.class, () -> market.add(null));
+        assertThrows(NullPointerException.class, () -> market.remove(null));
     }
 }
