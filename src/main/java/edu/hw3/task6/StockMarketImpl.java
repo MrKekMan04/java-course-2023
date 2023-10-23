@@ -1,5 +1,6 @@
 package edu.hw3.task6;
 
+import java.util.Objects;
 import java.util.PriorityQueue;
 
 public class StockMarketImpl implements StockMarket {
@@ -7,18 +8,14 @@ public class StockMarketImpl implements StockMarket {
 
     @Override
     public void add(Stock stock) {
-        if (stock == null)  {
-            throw new NullPointerException("Stock can't be null!");
-        }
+        Objects.requireNonNull(stock);
 
         market.add(stock);
     }
 
     @Override
     public void remove(Stock stock) {
-        if (stock == null)  {
-            throw new NullPointerException("Stock can't be null!");
-        }
+        Objects.requireNonNull(stock);
 
         market.remove(stock);
     }
