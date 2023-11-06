@@ -14,13 +14,7 @@ public final class Task3 {
 
         Map<K, Integer> frequency = new HashMap<>();
 
-        collection.forEach(item -> {
-            if (frequency.containsKey(item)) {
-                frequency.put(item, frequency.get(item) + 1);
-            } else {
-                frequency.put(item, 1);
-            }
-        });
+        collection.forEach(item -> frequency.put(item, frequency.getOrDefault(item, 0) + 1));
 
         return frequency;
     }
