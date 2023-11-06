@@ -13,13 +13,13 @@ public class Person implements Comparable<Person> {
 
     @Override
     public int compareTo(@NotNull Person o) {
-        int compareResult = this.surname.compareTo(o.surname);
-
-        return compareResult != 0 ? compareResult : this.name.compareTo(o.name);
+        return this.surname.isEmpty()
+            ? o.surname.isEmpty() ? this.name.compareTo(o.name) : this.name.compareTo(o.surname)
+            : o.surname.isEmpty() ? this.surname.compareTo(o.name) : this.surname.compareTo(o.surname);
     }
 
     @Override
     public String toString() {
-        return (name != null ? name + " " : "") + surname;
+        return name + (!surname.isEmpty() ? " " + surname : "");
     }
 }
