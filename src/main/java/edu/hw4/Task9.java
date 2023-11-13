@@ -8,6 +8,6 @@ public final class Task9 {
 
     public static Integer countPaws(List<Animal> animals) {
         return animals.stream()
-            .reduce(0, (counter, animal) -> counter + animal.paws(), Integer::sum);
+            .mapToInt(Animal::paws).sum();
     }
 }

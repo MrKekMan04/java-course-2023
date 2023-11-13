@@ -8,7 +8,7 @@ public final class Task13 {
 
     public static List<Animal> getAnimalsWhoseNamesConsistTwoOrMoreWords(List<Animal> animals) {
         return animals.stream()
-            .filter(animal -> animal.name().split(" ").length >= 2)
+            .filter(animal -> animal.name().trim().split(" ").length >= 2)
             .toList();
     }
 }

@@ -7,9 +7,11 @@ public final class Task7 {
     private Task7() {
     }
 
-    public static Animal getOldestAnimal(List<Animal> animals) {
+    public static Animal getKOldestAnimal(List<Animal> animals, int k) {
         return animals.stream()
-            .max(Comparator.comparingInt(Animal::age))
+            .sorted(Comparator.comparingInt(Animal::age).reversed())
+            .skip(k - 1)
+            .findFirst()
             .orElse(null);
     }
 }

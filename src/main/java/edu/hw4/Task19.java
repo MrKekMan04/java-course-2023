@@ -13,7 +13,7 @@ public final class Task19 {
 
     public static Map<String, Set<ValidationError>> getNonValidAnimals(List<Animal> animals) {
         return animals.stream()
-            .map(animal -> new AbstractMap.SimpleEntry<>(animal, AnimalValidator.validAnimal(animal)))
+            .map(animal -> new AbstractMap.SimpleEntry<>(animal, AnimalValidator.validateAnimal(animal)))
             .filter(entry -> !entry.getValue().isEmpty())
             .collect(Collectors.toMap(
                 entry -> entry.getKey().name() != null ? entry.getKey().name() : "null",

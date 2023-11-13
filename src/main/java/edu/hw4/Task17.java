@@ -10,8 +10,8 @@ public final class Task17 {
 
     public static Boolean areSpidersBitesMoreThenDogs(List<Animal> animals) {
         Map<Animal.Type, Long> bitesSpidersAndDogs = animals.stream()
-            .filter(animal -> (animal.type() == Animal.Type.SPIDER || animal.type() == Animal.Type.DOG)
-                && animal.bites())
+            .filter(animal -> (animal.type() == Animal.Type.SPIDER || animal.type() == Animal.Type.DOG))
+            .filter(Animal::bites)
             .collect(Collectors.groupingBy(Animal::type, Collectors.counting()));
 
         return bitesSpidersAndDogs.size() == 2

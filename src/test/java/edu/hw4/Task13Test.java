@@ -25,4 +25,11 @@ public class Task13Test extends TestBase {
             Task13.getAnimalsWhoseNamesConsistTwoOrMoreWords(alternativeAnimals)
         );
     }
+
+    @Test
+    public void assertThatAnimalsWithManyWhiteSpacesProcessRightTest() {
+        assertEquals(List.of(), Task13.getAnimalsWhoseNamesConsistTwoOrMoreWords(List.of(
+            new Animal("   word", Animal.Type.SPIDER, Animal.Sex.F, 6, 5, 4, true)
+        )));
+    }
 }

@@ -8,7 +8,7 @@ public final class AnimalValidator {
     private AnimalValidator() {
     }
 
-    public static List<ValidationError> validAnimal(Animal animal) {
+    public static List<ValidationError> validateAnimal(Animal animal) {
         final List<BadField> badFields = new ArrayList<>();
 
         if (animal.name() == null) {

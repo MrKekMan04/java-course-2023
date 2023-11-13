@@ -8,15 +8,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class Task7Test extends TestBase {
     @Test
     public void assertThatGetOldestAnimalReturnedRightAnswerTest() {
-        final Animal oldestAnimal = ANIMALS.get(1);
+        final Animal firstOldestAnimal = ANIMALS.get(1);
+        final Animal thirdOldestAnimal = ANIMALS.get(3);
 
-        assertEquals(oldestAnimal, Task7.getOldestAnimal(ANIMALS));
+        assertEquals(firstOldestAnimal, Task7.getKOldestAnimal(ANIMALS, 1));
+        assertEquals(thirdOldestAnimal, Task7.getKOldestAnimal(ANIMALS, 3));
+        assertNull(Task7.getKOldestAnimal(ANIMALS, 6));
     }
 
     @Test
     public void assertThatEmptyListGetOldestAnimalReturnedNullTest() {
         final List<Animal> emptyList = List.of();
 
-        assertNull(Task7.getOldestAnimal(emptyList));
+        assertNull(Task7.getKOldestAnimal(emptyList, 1));
     }
 }

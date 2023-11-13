@@ -22,7 +22,7 @@ public class AnimalValidatorTest {
         );
 
         for (int i = 0; i < invalidAnimals.size(); i++) {
-            assertEquals(validationErrors.get(i), AnimalValidator.validAnimal(invalidAnimals.get(i)));
+            assertEquals(validationErrors.get(i), AnimalValidator.validateAnimal(invalidAnimals.get(i)));
         }
     }
 }

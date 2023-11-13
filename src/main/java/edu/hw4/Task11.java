@@ -10,7 +10,7 @@ public final class Task11 {
 
     public static List<Animal> getAnimalsWhoseCanBitesAndHeightLessOrEquals100(List<Animal> animals) {
         return animals.stream()
-            .filter(animal -> animal.bites() && animal.height() <= MAX_HEIGHT)
+            .filter(animal -> animal.bites() && animal.height() > MAX_HEIGHT)
             .toList();
     }
 }

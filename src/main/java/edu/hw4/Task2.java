@@ -7,9 +7,10 @@ public final class Task2 {
     private Task2() {
     }
 
-    public static List<Animal> sortAnimalsByWeightDesc(List<Animal> animals) {
+    public static List<Animal> getKSortedAnimalsByWeightDesc(List<Animal> animals, int k) {
         return animals.stream()
             .sorted(Comparator.comparingInt(Animal::weight).reversed())
+            .limit(k)
             .toList();
     }
 }
