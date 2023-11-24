@@ -18,7 +18,7 @@ public class PiCalculatorTest {
 
         try (ExecutorService pool = Executors.newCachedThreadPool()) {
             PerformanceEntity<Double> multiThread =
-                calculatePerformance(pool.submit(() -> calculateMultiThread(4, iterationsCount)));
+                calculatePerformance(pool.submit(() -> calculateMultiThread(2, iterationsCount)));
             PerformanceEntity<Double> singleThread =
                 calculatePerformance(pool.submit(() -> calculateSingleThread(iterationsCount)));
 
@@ -34,7 +34,7 @@ public class PiCalculatorTest {
 
         try (ExecutorService pool = Executors.newCachedThreadPool()) {
             PerformanceEntity<Double> multiThread =
-                calculatePerformance(pool.submit(() -> calculateMultiThread(4, iterationsCount)));
+                calculatePerformance(pool.submit(() -> calculateMultiThread(2, iterationsCount)));
             PerformanceEntity<Double> singleThread =
                 calculatePerformance(pool.submit(() -> calculateSingleThread(iterationsCount)));
 
@@ -50,7 +50,7 @@ public class PiCalculatorTest {
 
         try (ExecutorService pool = Executors.newCachedThreadPool()) {
             PerformanceEntity<Double> multiThread =
-                calculatePerformance(pool.submit(() -> calculateMultiThread(4, iterationsCount)));
+                calculatePerformance(pool.submit(() -> calculateMultiThread(2, iterationsCount)));
             PerformanceEntity<Double> singleThread =
                 calculatePerformance(pool.submit(() -> calculateSingleThread(iterationsCount)));
 
