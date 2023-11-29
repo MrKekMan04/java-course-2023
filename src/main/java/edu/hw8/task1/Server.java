@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 public class Server {
-    private static final int SERVER_PORT = 8080;
+    private static final int SERVER_PORT = 51242;
     private static final int THREAD_COUNT = 4;
     private final ConcurrentHashMap<String, String> answers = new ConcurrentHashMap<>();
 
