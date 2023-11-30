@@ -11,6 +11,7 @@ import java.util.Random;
 public class RandomizedPrimGenerator implements MazeGenerator {
     private static final int CELL_GENERATION_DISTANCE = 2;
     private static final int MAX_FRONTIER_COUNT = 4;
+    private static final int[] DELTA_FRONTIER = new int[] {-CELL_GENERATION_DISTANCE, 0, CELL_GENERATION_DISTANCE};
 
     @Override
     public Maze generate(int height, int width) {
@@ -61,16 +62,14 @@ public class RandomizedPrimGenerator implements MazeGenerator {
     }
 
     private List<Coordinate> getFrontierCells(Coordinate source, Cell[][] grid) {
-        int[] delta = new int[] {-CELL_GENERATION_DISTANCE, 0, CELL_GENERATION_DISTANCE};
         ArrayList<Coordinate> frontiers = new ArrayList<>(MAX_FRONTIER_COUNT);
 
-        for (int deltaRow : delta) {
-            for (int deltaCol : delta) {
+        for (int deltaRow : DELTA_FRONTIER) {
+            for (int deltaCol : DELTA_FRONTIER) {
                 if ((deltaRow != 0 && deltaCol == 0) || (deltaCol != 0 && deltaRow == 0)) {
                     Coordinate frontier = new Coordinate(source.getRow() + deltaRow, source.getCol() + deltaCol);
 
-                    if (isCoordinateValid(grid, frontier)
-                        && grid[frontier.getRow()][frontier.getCol()].type() == Cell.Type.WALL) {
+                    if (isCoordinateValid(grid, frontier) && isWall(grid, frontier)) {
                         frontiers.add(frontier);
                     }
                 }
@@ -85,6 +84,10 @@ public class RandomizedPrimGenerator implements MazeGenerator {
         int col = coordinate.getCol();
 
         return row >= 0 && row < grid.length && col >= 0 && col < grid[0].length;
+    }
+
+    private boolean isWall(Cell[][] grid, Coordinate frontier) {
+        return grid[frontier.getRow()][frontier.getCol()].type() == Cell.Type.WALL;
     }
 
     private Coordinate getBetweenCoordinate(Coordinate from, Coordinate to) {
