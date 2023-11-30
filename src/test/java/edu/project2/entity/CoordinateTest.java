@@ -32,21 +32,6 @@ public class CoordinateTest {
     }
 
     @Test
-    public void assertThatWeightedCoordinateBiggerThenCoordinateTest() {
-        assertTrue(weightedCoordinate.compareTo(coordinate) > 0);
-    }
-
-    @Test
-    public void assertThatEqualsWeightedCoordinateReturnedRightAnswerTest() {
-        assertTrue(new WeightedCoordinate(0, 0, 1).compareTo(weightedCoordinate) > 0);
-    }
-
-    @Test
-    public void assertThatComparingCoordinatesEqualsZeroTest() {
-        assertEquals(0, coordinate.compareTo(new Coordinate(1, 1)));
-    }
-
-    @Test
     public void assertThatSameCoordinateAndWeightedCoordinateEqualsTest() {
         assertEquals(coordinate, weightedCoordinate);
     }

@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CoordinateNodeTest {
     private static Coordinate someCoordinate;
-    private static CoordinateNode withoutChild;
-    private static CoordinateNode withChild;
+    private static CoordinateNode<Coordinate> withoutChild;
+    private static CoordinateNode<Coordinate> withChild;
 
     @BeforeAll
     public static void setUp() {
         someCoordinate = new Coordinate(0, 0);
-        withoutChild = new CoordinateNode(someCoordinate);
-        withChild = new CoordinateNode(withoutChild, someCoordinate);
+        withoutChild = new CoordinateNode<>(someCoordinate);
+        withChild = new CoordinateNode<>(withoutChild, someCoordinate);
     }
 
     @Test
@@ -30,10 +30,5 @@ class CoordinateNodeTest {
     public void assertThatCoordinateReturnedRightAnswerTest() {
         assertEquals(someCoordinate, withoutChild.coordinate());
         assertEquals(someCoordinate, withChild.coordinate());
-    }
-
-    @Test
-    public void assertThatCompareTakesByCoordinateTest() {
-        assertEquals(0, withoutChild.compareTo(withChild));
     }
 }
