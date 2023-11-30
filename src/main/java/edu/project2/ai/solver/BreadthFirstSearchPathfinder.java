@@ -4,15 +4,19 @@ import edu.project2.entity.Cell;
 import edu.project2.entity.Coordinate;
 import edu.project2.entity.CoordinateNode;
 import edu.project2.entity.Maze;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BreadthFirstSearchPathfinder implements Pathfinder {
     private static final int MAX_NEIGHBOUR_COUNT = 4;
+    private static final int[] DELTA_NEIGHBOUR = new int[] {-1, 0, 1};
 
     @Override
     public List<Coordinate> solve(Maze maze, Coordinate start, Coordinate end) {
@@ -20,9 +24,9 @@ public class BreadthFirstSearchPathfinder implements Pathfinder {
             return null;
         }
 
-        HashSet<Coordinate> visitedCoordinates = new HashSet<>();
-        PriorityQueue<CoordinateNode> queue = Stream.of(new CoordinateNode(start))
-            .collect(Collectors.toCollection(PriorityQueue::new));
+        Queue<CoordinateNode> queue = Stream.of(new CoordinateNode(createNextCoordinate(start, end)))
+            .collect(Collectors.toCollection(queueFactory()));
+        Set<Coordinate> visitedCoordinates = new HashSet<>();
         CoordinateNode current = new CoordinateNode(null);
 
         while (!end.equals(current.coordinate()) && !queue.isEmpty()) {
@@ -51,17 +55,24 @@ public class BreadthFirstSearchPathfinder implements Pathfinder {
         return true;
     }
 
-    private List<Coordinate> getNeighbour(Coordinate source, HashSet<Coordinate> visited, Maze maze) {
-        int[] delta = new int[] {-1, 0, 1};
+    private boolean isWall(Maze maze, Coordinate coordinate) {
+        return maze.grid()[coordinate.getRow()][coordinate.getCol()].type() == Cell.Type.WALL;
+    }
+
+    protected Supplier<? extends Queue<CoordinateNode>> queueFactory() {
+        return ArrayDeque::new;
+    }
+
+    private List<Coordinate> getNeighbour(Coordinate source, Set<Coordinate> visited, Maze maze) {
         ArrayList<Coordinate> neighbours = new ArrayList<>(MAX_NEIGHBOUR_COUNT);
 
-        for (int deltaRow : delta) {
-            for (int deltaCol : delta) {
+        for (int deltaRow : DELTA_NEIGHBOUR) {
+            for (int deltaCol : DELTA_NEIGHBOUR) {
                 if ((deltaRow != 0 && deltaCol == 0) || (deltaCol != 0 && deltaRow == 0)) {
                     Coordinate neighbour = new Coordinate(source.getRow() + deltaRow, source.getCol() + deltaCol);
 
                     if (areCoordinatesValid(maze, neighbour)
-                        && maze.grid()[neighbour.getRow()][neighbour.getCol()].type() != Cell.Type.WALL
+                        && !isWall(maze, neighbour)
                         && !visited.contains(neighbour)) {
                         neighbours.add(neighbour);
                     }
@@ -70,10 +81,6 @@ public class BreadthFirstSearchPathfinder implements Pathfinder {
         }
 
         return neighbours;
-    }
-
-    private boolean isWall(Maze maze, Coordinate coordinate) {
-        return maze.grid()[coordinate.getRow()][coordinate.getCol()].type() == Cell.Type.WALL;
     }
 
     protected Coordinate createNextCoordinate(Coordinate next, Coordinate end) {
