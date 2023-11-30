@@ -1,9 +1,8 @@
 package edu.project2.entity;
 
 import java.util.Objects;
-import org.jetbrains.annotations.NotNull;
 
-public class Coordinate implements Comparable<Coordinate> {
+public class Coordinate {
     private final int row;
     private final int col;
 
@@ -18,11 +17,6 @@ public class Coordinate implements Comparable<Coordinate> {
 
     public int getCol() {
         return col;
-    }
-
-    @Override
-    public int compareTo(@NotNull Coordinate o) {
-        return 0;
     }
 
     @Override
