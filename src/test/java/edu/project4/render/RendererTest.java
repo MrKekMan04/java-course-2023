@@ -5,6 +5,7 @@ import edu.project4.entity.ImageFormat;
 import edu.project4.entity.ImageUtils;
 import edu.project4.entity.Rect;
 import edu.project4.entity.transformation.PolarTransformation;
+import edu.project4.entity.transformation.SphereTransformation;
 import edu.project4.entity.transformation.Transformation;
 import edu.project4.entity.transformation.TrigonometricTransformation;
 import org.junit.jupiter.api.AfterAll;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class RendererTest {
     private static final Path FRACTAL_PATH = Path.of("fractal.png");
     private static final List<Transformation> VARIATIONS =
-        List.of(new TrigonometricTransformation(), new PolarTransformation(), new PolarTransformation());
+        List.of(new TrigonometricTransformation(), new PolarTransformation(), new SphereTransformation());
     private static final Rect WORLD = new Rect(0, 0, 1920, 1080);
     private static final int SAMPLES = 10_000;
     private static final short ITER_PER_SAMPLE = (short) 128;
