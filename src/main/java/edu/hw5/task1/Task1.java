@@ -3,6 +3,7 @@ package edu.hw5.task1;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public final class Task1 {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm");
@@ -22,8 +23,8 @@ public final class Task1 {
             }
 
             return sessions.length > 0 ? duration.dividedBy(sessions.length) : duration;
-        } catch (Exception e) {
-            return null;
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException(e);
         }
     }
 }

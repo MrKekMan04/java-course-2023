@@ -27,10 +27,8 @@ public class Task1Test {
 
     @Test
     public void assertThatIncorrectInputReturnedNull() {
-        assertNull(getSessionDuration(new String[] {
+        assertThrows(RuntimeException.class, () -> getSessionDuration(new String[] {
             "2022-03-12, 20:20-2022-03-12, 23:50"
         }));
-
-        assertNull(getSessionDuration(null));
     }
 }

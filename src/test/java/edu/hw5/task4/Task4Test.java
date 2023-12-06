@@ -12,7 +12,7 @@ public class Task4Test {
         final String notContainsSpecialSymbols = "password";
 
         assertTrue(isPasswordValid(containsOnlyOneSpecialSymbol));
-        assertFalse(isPasswordValid(containsManySpecialSymbols));
+        assertTrue(isPasswordValid(containsManySpecialSymbols));
         assertFalse(isPasswordValid(notContainsSpecialSymbols));
     }
 

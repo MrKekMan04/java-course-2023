@@ -9,14 +9,14 @@ import java.util.stream.IntStream;
 
 @SuppressWarnings("MagicNumber")
 public final class Task2 {
-    private static final int DAY = 13;
+    private static final int THIRTEEN_DAY = 13;
 
     private Task2() {
     }
 
     public static List<LocalDate> getAllFridaysThirteenForYear(int year) {
         return IntStream.range(1, 13)
-            .mapToObj(month -> LocalDate.of(year, month, DAY))
+            .mapToObj(month -> LocalDate.of(year, month, THIRTEEN_DAY))
             .filter(date -> date.getDayOfWeek() == DayOfWeek.FRIDAY)
             .toList();
     }
@@ -35,6 +35,6 @@ public final class Task2 {
     private static LocalDate getNextThirteen(LocalDate date) {
         LocalDate nextYearAndMonth = date.getDayOfMonth() <= 12 ? date : date.plusMonths(1);
 
-        return LocalDate.of(nextYearAndMonth.getYear(), nextYearAndMonth.getMonth(), DAY);
+        return LocalDate.of(nextYearAndMonth.getYear(), nextYearAndMonth.getMonth(), THIRTEEN_DAY);
     }
 }
