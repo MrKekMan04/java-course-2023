@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 public abstract class BasePathfinder<T extends Coordinate> implements Pathfinder {
     private static final int MAX_NEIGHBOUR_COUNT = 4;
+    private static final int THREADS_COUNT = 4;
     private static final int[] DELTA_NEIGHBOUR = new int[] {-1, 0, 1};
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
@@ -34,7 +35,7 @@ public abstract class BasePathfinder<T extends Coordinate> implements Pathfinder
         Set<Coordinate> visitedCoordinates = new HashSet<>();
         AtomicReference<CoordinateNode<T>> solveCord = new AtomicReference<>();
 
-        try (ExecutorService pool = Executors.newFixedThreadPool(4)) {
+        try (ExecutorService pool = Executors.newFixedThreadPool(THREADS_COUNT)) {
             while (!queue.isEmpty() && solveCord.get() == null) {
                 CompletableFuture.allOf(Stream.generate(() -> CompletableFuture.runAsync(() -> {
                             CoordinateNode<T> current;
@@ -52,10 +53,14 @@ public abstract class BasePathfinder<T extends Coordinate> implements Pathfinder
                                 } else {
                                     visitedCoordinates.add(current.coordinate());
 
-                                    List<CoordinateNode<T>> neighbours = getNeighbour(current.coordinate(), visitedCoordinates, maze)
-                                        .stream()
-                                        .map(coordinate -> new CoordinateNode<>(current, createNextCoordinate(coordinate, end)))
-                                        .toList();
+                                    List<CoordinateNode<T>> neighbours =
+                                        getNeighbour(current.coordinate(), visitedCoordinates, maze)
+                                            .stream()
+                                            .map(coordinate -> new CoordinateNode<>(
+                                                current,
+                                                createNextCoordinate(coordinate, end)
+                                            ))
+                                            .toList();
 
                                     lock.writeLock().lock();
 
@@ -67,7 +72,7 @@ public abstract class BasePathfinder<T extends Coordinate> implements Pathfinder
                                 }
                             }
                         }, pool))
-                        .limit(4)
+                        .limit(THREADS_COUNT)
                         .toArray(CompletableFuture[]::new))
                     .join();
             }
