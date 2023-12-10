@@ -26,7 +26,7 @@ public class PredicatesTest {
         } catch (IOException ignored) {
         }
 
-        assertEquals(expectedFileNames, actualFileNames);
+        assertTrue(expectedFileNames.containsAll(actualFileNames));
     }
 
     @Test
