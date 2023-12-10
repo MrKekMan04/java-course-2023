@@ -18,7 +18,8 @@ public class FileFinder extends AbstractFinder {
             if (filePath.toFile().exists()) {
                 return List.of(Files.lines(filePath));
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            LOGGER.error(e);
         }
 
         return super.getLogsLines(path);

@@ -32,14 +32,16 @@ public class FileInIntermediateDirectoriesFinder extends AbstractFinder {
                         .forEach(filePath -> {
                             try {
                                 matchedFiles.add(Files.lines(filePath));
-                            } catch (IOException ignored) {
+                            } catch (IOException e) {
+                                LOGGER.error(e);
                             }
                         });
                 }
 
                 return matchedFiles;
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            LOGGER.error(e);
         }
 
         return super.getLogsLines(path);

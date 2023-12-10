@@ -35,7 +35,8 @@ public class UrlFinder extends AbstractFinder {
                     }
                 }
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            LOGGER.error(e);
         }
 
         return super.getLogsLines(path);

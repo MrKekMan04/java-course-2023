@@ -14,8 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LogAnalyzer {
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final String PATH_KEY = "--path";
     private final Map<String, String> parameters;
     private final List<String> parsedLogs;
@@ -50,19 +53,7 @@ public class LogAnalyzer {
     }
 
     private AbstractFinder buildChain() {
-        AbstractFinder lastFinder = null;
-        List<Class<? extends AbstractFinder>> classes = List.of(
-            UrlFinder.class, FilesInDirectoryFinder.class, FileInIntermediateDirectoriesFinder.class, FileFinder.class
-        );
-
-        for (Class<? extends AbstractFinder> aClass : classes) {
-            try {
-                lastFinder = aClass.getConstructor(AbstractFinder.class).newInstance(lastFinder);
-            } catch (ReflectiveOperationException ignored) {
-            }
-        }
-
-        return lastFinder;
+        return new UrlFinder(new FilesInDirectoryFinder(new FileInIntermediateDirectoriesFinder(new FileFinder(null))));
     }
 
     private void analyzeLog(Stream<String> lines, String path) {
@@ -84,7 +75,8 @@ public class LogAnalyzer {
     private LogRecord tryParseLogLine(String line) {
         try {
             return new LogRecord(line);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            LOGGER.error(e);
             return null;
         }
     }
