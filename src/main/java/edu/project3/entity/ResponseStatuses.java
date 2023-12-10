@@ -1,5 +1,6 @@
 package edu.project3.entity;
 
+import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,42 +14,42 @@ public final class ResponseStatuses {
         STATUSES.put(102, "Processing");
         STATUSES.put(103, "Early Hints");
 
-        STATUSES.put(200, "OK");
-        STATUSES.put(201, "Created");
-        STATUSES.put(202, "Accepted");
-        STATUSES.put(203, "Non-Authoritative Information");
-        STATUSES.put(204, "No Content");
-        STATUSES.put(205, "Reset Content");
-        STATUSES.put(206, "Partial Content");
+        STATUSES.put(HttpURLConnection.HTTP_OK, "OK");
+        STATUSES.put(HttpURLConnection.HTTP_CREATED, "Created");
+        STATUSES.put(HttpURLConnection.HTTP_ACCEPTED, "Accepted");
+        STATUSES.put(HttpURLConnection.HTTP_NOT_AUTHORITATIVE, "Non-Authoritative Information");
+        STATUSES.put(HttpURLConnection.HTTP_NO_CONTENT, "No Content");
+        STATUSES.put(HttpURLConnection.HTTP_RESET, "Reset Content");
+        STATUSES.put(HttpURLConnection.HTTP_PARTIAL, "Partial Content");
         STATUSES.put(207, "Multi-Status");
         STATUSES.put(208, "Already Reported");
         STATUSES.put(226, "IM Used");
 
-        STATUSES.put(300, "Multiple Choices");
-        STATUSES.put(301, "Moved Permanently");
-        STATUSES.put(302, "Found");
-        STATUSES.put(303, "See Other");
-        STATUSES.put(304, "Not Modified");
-        STATUSES.put(305, "Use Proxy");
+        STATUSES.put(HttpURLConnection.HTTP_MULT_CHOICE, "Multiple Choices");
+        STATUSES.put(HttpURLConnection.HTTP_MOVED_PERM, "Moved Permanently");
+        STATUSES.put(HttpURLConnection.HTTP_MOVED_TEMP, "Moved Temporary");
+        STATUSES.put(HttpURLConnection.HTTP_SEE_OTHER, "See Other");
+        STATUSES.put(HttpURLConnection.HTTP_NOT_MODIFIED, "Not Modified");
+        STATUSES.put(HttpURLConnection.HTTP_USE_PROXY, "Use Proxy");
         STATUSES.put(307, "Temporary Redirect");
         STATUSES.put(308, "Permanent Redirect");
 
-        STATUSES.put(400, "Bad Request");
-        STATUSES.put(401, "Unauthorized");
-        STATUSES.put(402, "Payment Required");
-        STATUSES.put(403, "Forbidden");
-        STATUSES.put(404, "Not Found");
-        STATUSES.put(405, "Method Not Allowed");
-        STATUSES.put(406, "Not Acceptable");
-        STATUSES.put(407, "Proxy Authentication Required");
-        STATUSES.put(408, "Request Timeout");
-        STATUSES.put(409, "Conflict");
-        STATUSES.put(410, "Gone");
-        STATUSES.put(411, "Length Required");
-        STATUSES.put(412, "Precondition Failed");
-        STATUSES.put(413, "Payload Too Large");
-        STATUSES.put(414, "URI Too Long");
-        STATUSES.put(415, "Unsupported Media Type");
+        STATUSES.put(HttpURLConnection.HTTP_BAD_REQUEST, "Bad Request");
+        STATUSES.put(HttpURLConnection.HTTP_UNAUTHORIZED, "Unauthorized");
+        STATUSES.put(HttpURLConnection.HTTP_PAYMENT_REQUIRED, "Payment Required");
+        STATUSES.put(HttpURLConnection.HTTP_FORBIDDEN, "Forbidden");
+        STATUSES.put(HttpURLConnection.HTTP_NOT_FOUND, "Not Found");
+        STATUSES.put(HttpURLConnection.HTTP_BAD_METHOD, "Method Not Allowed");
+        STATUSES.put(HttpURLConnection.HTTP_NOT_ACCEPTABLE, "Not Acceptable");
+        STATUSES.put(HttpURLConnection.HTTP_PROXY_AUTH, "Proxy Authentication Required");
+        STATUSES.put(HttpURLConnection.HTTP_CLIENT_TIMEOUT, "Request Timeout");
+        STATUSES.put(HttpURLConnection.HTTP_CONFLICT, "Conflict");
+        STATUSES.put(HttpURLConnection.HTTP_GONE, "Gone");
+        STATUSES.put(HttpURLConnection.HTTP_LENGTH_REQUIRED, "Length Required");
+        STATUSES.put(HttpURLConnection.HTTP_PRECON_FAILED, "Precondition Failed");
+        STATUSES.put(HttpURLConnection.HTTP_ENTITY_TOO_LARGE, "Request Entity Too Large");
+        STATUSES.put(HttpURLConnection.HTTP_REQ_TOO_LONG, "URI Too Long");
+        STATUSES.put(HttpURLConnection.HTTP_UNSUPPORTED_TYPE, "Unsupported Media Type");
         STATUSES.put(416, "Range Not Satisfiable");
         STATUSES.put(417, "Expectation Failed");
         STATUSES.put(418, "I'm a teapot");
@@ -65,12 +66,12 @@ public final class ResponseStatuses {
         STATUSES.put(451, "Unavailable For Legal Reasons");
         STATUSES.put(499, "Client Closed Request");
 
-        STATUSES.put(500, "Internal Server Error");
-        STATUSES.put(501, "Not Implemented");
-        STATUSES.put(502, "Bad Gateway");
-        STATUSES.put(503, "Service Unavailable");
-        STATUSES.put(504, "Gateway Timeout");
-        STATUSES.put(505, "HTTP Version Not Supported");
+        STATUSES.put(HttpURLConnection.HTTP_INTERNAL_ERROR, "Internal Server Error");
+        STATUSES.put(HttpURLConnection.HTTP_NOT_IMPLEMENTED, "Not Implemented");
+        STATUSES.put(HttpURLConnection.HTTP_BAD_GATEWAY, "Bad Gateway");
+        STATUSES.put(HttpURLConnection.HTTP_UNAVAILABLE, "Service Unavailable");
+        STATUSES.put(HttpURLConnection.HTTP_GATEWAY_TIMEOUT, "Gateway Timeout");
+        STATUSES.put(HttpURLConnection.HTTP_VERSION, "HTTP Version Not Supported");
         STATUSES.put(506, "Variant Also Negotiates");
         STATUSES.put(507, "Insufficient Storage");
         STATUSES.put(508, "Loop Detected");
