@@ -6,15 +6,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class Predicates {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private Predicates() {
     }
 
     public static boolean largerThan(Path entry, int bytes) {
         try {
             return Files.size(entry) > bytes;
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            LOGGER.error(e);
             return false;
         }
     }
@@ -29,7 +34,8 @@ public final class Predicates {
                 }
             }
             return true;
-        } catch (IOException ignore) {
+        } catch (IOException e) {
+            LOGGER.error(e);
             return false;
         }
     }

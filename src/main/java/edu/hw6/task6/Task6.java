@@ -5,9 +5,12 @@ import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings("MultipleStringLiterals")
 public final class Task6 {
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final Map<Integer, List<String>> POPULAR_PORTS = Map.of(
         21, List.of("SSH (Secure Shell)", "TCP"),
         80, List.of("HTTP (HyperText Transfer Protocol)", "TCP/UDP"),
@@ -33,6 +36,7 @@ public final class Task6 {
              DatagramSocket ignored1 = new DatagramSocket(id)) {
             return true;
         } catch (IOException e) {
+            LOGGER.error(e);
             return false;
         }
     }

@@ -9,8 +9,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class Task4 {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private Task4() {
     }
 
@@ -22,7 +26,8 @@ public final class Task4 {
             writer.write("Programming is learned by writing programs. ― Brian Kernighan");
 
             return true;
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            LOGGER.error(e);
         }
 
         return false;

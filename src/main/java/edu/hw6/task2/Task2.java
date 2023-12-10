@@ -9,49 +9,55 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class Task2 {
     private static final Pattern FILE_NAME_AND_EXTENSION_PATTERN =
         Pattern.compile("^(?<name>.+)\\.(?<extension>\\w+)?$");
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private Task2() {
     }
 
     public static boolean cloneFile(Path path) {
-        if (path.toFile().exists()) {
-            try {
-                Matcher nameAndExtensionMatcher =
-                    FILE_NAME_AND_EXTENSION_PATTERN.matcher(path.getFileName().toString());
+        if (!path.toFile().exists()) {
+            return false;
+        }
 
-                if (nameAndExtensionMatcher.matches()) {
-                    String filename = nameAndExtensionMatcher.group("name");
-                    String extension = nameAndExtensionMatcher.group("extension");
+        try {
+            Matcher nameAndExtensionMatcher =
+                FILE_NAME_AND_EXTENSION_PATTERN.matcher(path.getFileName().toString());
 
-                    if (extension == null) {
-                        extension = "";
-                    }
+            if (nameAndExtensionMatcher.matches()) {
+                String filename = nameAndExtensionMatcher.group("name");
+                String extension = nameAndExtensionMatcher.group("extension");
 
-                    Pattern cloneFilesPattern = comlilePattern(filename, extension);
-                    Path parent = path.getParent();
-                    int maxIndex = -1;
+                if (extension == null) {
+                    extension = "";
+                }
 
-                    try (var dirStream = Files.newDirectoryStream(parent)) {
-                        for (Path siblingPath : dirStream) {
-                            Matcher matcher = cloneFilesPattern.matcher(siblingPath.getFileName().toString());
+                Pattern cloneFilesPattern = comlilePattern(filename, extension);
+                Path parent = path.getParent();
+                int maxIndex = -1;
 
-                            if (matcher.matches()) {
-                                maxIndex = Math.max(maxIndex, parseIndex(matcher.group("index")));
-                            }
+                try (var dirStream = Files.newDirectoryStream(parent)) {
+                    for (Path siblingPath : dirStream) {
+                        Matcher matcher = cloneFilesPattern.matcher(siblingPath.getFileName().toString());
+
+                        if (matcher.matches()) {
+                            maxIndex = Math.max(maxIndex, parseIndex(matcher.group("index")));
                         }
                     }
-
-                    return copyContent(
-                        path.toFile(),
-                        parent.resolve(getFileCloneNameByIndex(maxIndex, filename, extension)).toFile()
-                    );
                 }
-            } catch (IOException ignored) {
+
+                return copyContent(
+                    path.toFile(),
+                    parent.resolve(getFileCloneNameByIndex(maxIndex, filename, extension)).toFile()
+                );
             }
+        } catch (IOException e) {
+            LOGGER.error(e);
         }
 
         return false;
@@ -65,7 +71,8 @@ public final class Task2 {
         if (index != null) {
             try {
                 return Integer.parseInt(index);
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                LOGGER.error(e);
                 return -1;
             }
         }
@@ -93,7 +100,8 @@ public final class Task2 {
             }
 
             return true;
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            LOGGER.error(e);
         }
 
         return false;

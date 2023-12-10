@@ -12,9 +12,12 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DiskMap extends HashMap<String, String> {
     private static final Pattern FORMAT_PATTERN = Pattern.compile("(?<key>.*):(?<value>.*)");
+    private static final Logger LOGGER = LogManager.getLogger();
     private final File file;
 
     public DiskMap(Path path) {
@@ -30,26 +33,30 @@ public class DiskMap extends HashMap<String, String> {
     }
 
     public boolean saveData() {
-        if (file.exists() && file.isFile()) {
-            if (file.canWrite()) {
-                try (var out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)))) {
-                    forEach((key, value) -> {
-                        try {
-                            out.write(key + ":" + value + "\n");
-                        } catch (IOException ignored) {
-                        }
-                    });
-
-                    return true;
-                } catch (IOException ignored) {
-                }
-            }
-        } else {
+        if (!(file.exists() && file.isFile())) {
             try {
                 if (file.createNewFile()) {
                     return saveData();
                 }
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                LOGGER.error(e);
+                return false;
+            }
+        }
+
+        if (file.canWrite()) {
+            try (var out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)))) {
+                forEach((key, value) -> {
+                    try {
+                        out.write(key + ":" + value + "\n");
+                    } catch (IOException e) {
+                        LOGGER.error(e);
+                    }
+                });
+
+                return true;
+            } catch (IOException e) {
+                LOGGER.error(e);
             }
         }
 
@@ -57,26 +64,29 @@ public class DiskMap extends HashMap<String, String> {
     }
 
     public boolean loadData() {
-        if (file.exists() && file.isFile()) {
-            if (file.canRead()) {
-                try (var in = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
-                    in.lines()
-                        .forEach(line -> {
-                            Matcher matcher = FORMAT_PATTERN.matcher(line);
-
-                            if (matcher.matches()) {
-                                put(matcher.group("key"), matcher.group("value"));
-                            }
-                        });
-
-                    return true;
-                } catch (IOException ignored) {
-                }
-            }
-        } else {
+        if (!(file.exists() && file.isFile())) {
             try {
                 return file.createNewFile();
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                LOGGER.error(e);
+                return false;
+            }
+        }
+
+        if (file.canRead()) {
+            try (var in = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
+                in.lines()
+                    .forEach(line -> {
+                        Matcher matcher = FORMAT_PATTERN.matcher(line);
+
+                        if (matcher.matches()) {
+                            put(matcher.group("key"), matcher.group("value"));
+                        }
+                    });
+
+                return true;
+            } catch (IOException e) {
+                LOGGER.error(e);
             }
         }
 
