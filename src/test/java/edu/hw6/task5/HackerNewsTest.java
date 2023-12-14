@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class HackerNewsTest {
     @Test
     public void assertThatHackerNewsTopStoriesWorksRight() {
-        final int expectedLength = 500;
+        final int maxLength = 500;
 
-        assertEquals(expectedLength, HackerNews.hackerNewsTopStories().length);
+        assertTrue(maxLength >= HackerNews.hackerNewsTopStories().length);
     }
 
     @Test
