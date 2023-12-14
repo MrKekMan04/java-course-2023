@@ -1,13 +1,13 @@
 package edu.hw11.task1;
 
+import java.lang.reflect.InvocationTargetException;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.InvocationTargetException;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Task1Test {
     @Test
