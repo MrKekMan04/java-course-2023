@@ -1,10 +1,13 @@
 package edu.hw8.task2;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
 
 public class MyThreadPool implements ThreadPool {
+    private static final Logger LOGGER = LogManager.getLogger();
     private final Worker[] workers;
     private final Semaphore semaphore;
     private final ConcurrentLinkedQueue<Runnable> tasks = new ConcurrentLinkedQueue<>();
@@ -38,7 +41,8 @@ public class MyThreadPool implements ThreadPool {
         for (Worker worker : workers) {
             try {
                 worker.join();
-            } catch (InterruptedException ignored) {
+            } catch (InterruptedException e) {
+                LOGGER.error(e);
             }
         }
     }
@@ -65,7 +69,8 @@ public class MyThreadPool implements ThreadPool {
                     }
 
                     task.run();
-                } catch (InterruptedException ignored) {
+                } catch (InterruptedException e) {
+                    LOGGER.error(e);
                 } finally {
                     semaphore.release();
                 }
