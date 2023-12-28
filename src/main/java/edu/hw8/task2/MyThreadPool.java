@@ -1,10 +1,10 @@
 package edu.hw8.task2;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MyThreadPool implements ThreadPool {
     private static final Logger LOGGER = LogManager.getLogger();
