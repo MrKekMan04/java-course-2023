@@ -23,6 +23,7 @@ public class FibonacciImpl implements Implementation {
             methodVisitor.visitInsn(Opcodes.I2L);
             methodVisitor.visitInsn(Opcodes.LRETURN);
             methodVisitor.visitLabel(ifStatement);
+            methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
             methodVisitor.visitVarInsn(Opcodes.ILOAD, 0);
             methodVisitor.visitInsn(Opcodes.ICONST_1);
             methodVisitor.visitInsn(Opcodes.ISUB);
@@ -34,7 +35,7 @@ public class FibonacciImpl implements Implementation {
             methodVisitor.visitInsn(Opcodes.LADD);
             methodVisitor.visitInsn(Opcodes.LRETURN);
 
-            return new ByteCodeAppender.Size(maxMethodOperandStackSize, 1);
+            return new ByteCodeAppender.Size(maxMethodOperandStackSize, methodDescription.getStackSize());
         };
     }
 
