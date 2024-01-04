@@ -1,0 +1,5 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99,9%)","Unit"
+"edu.project5.ReflectionBenchmark.directAccess","avgt",1,1,"0,571882",NaN,"ns/op"
+"edu.project5.ReflectionBenchmark.invokeLambdaMetaFactory","avgt",1,1,"0,800032",NaN,"ns/op"
+"edu.project5.ReflectionBenchmark.invokeMethodHandle","avgt",1,1,"3,965959",NaN,"ns/op"
+"edu.project5.ReflectionBenchmark.invokeReflection","avgt",1,1,"5,776148",NaN,"ns/op"
