@@ -111,7 +111,7 @@
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
             <version>1.14.10</version>
-
+        </dependency>
         <!-- JMH -->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
