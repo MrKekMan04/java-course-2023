@@ -9,13 +9,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class BasePathfinder<T extends Coordinate> implements Pathfinder {
     private static final int MAX_NEIGHBOUR_COUNT = 4;
+    private static final int THREADS_COUNT = 4;
     private static final int[] DELTA_NEIGHBOUR = new int[] {-1, 0, 1};
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     @Override
     public List<Coordinate> solve(Maze maze, Coordinate start, Coordinate end) {
@@ -26,20 +33,52 @@ public abstract class BasePathfinder<T extends Coordinate> implements Pathfinder
         Queue<CoordinateNode<T>> queue = Stream.of(new CoordinateNode<>(createNextCoordinate(start, end)))
             .collect(Collectors.toCollection(queueFactory()));
         Set<Coordinate> visitedCoordinates = new HashSet<>();
-        CoordinateNode<T> current = new CoordinateNode<>(null);
+        AtomicReference<CoordinateNode<T>> solveCord = new AtomicReference<>();
 
-        while (!end.equals(current.coordinate()) && !queue.isEmpty()) {
-            current = queue.poll();
-            visitedCoordinates.add(current.coordinate());
+        try (ExecutorService pool = Executors.newFixedThreadPool(THREADS_COUNT)) {
+            while (!queue.isEmpty() && solveCord.get() == null) {
+                CompletableFuture.allOf(Stream.generate(() -> CompletableFuture.runAsync(() -> {
+                            CoordinateNode<T> current;
+                            lock.writeLock().lock();
 
-            CoordinateNode<T> finalCurrent = current;
-            queue.addAll(getNeighbour(current.coordinate(), visitedCoordinates, maze)
-                .stream()
-                .map(coordinate -> new CoordinateNode<>(finalCurrent, createNextCoordinate(coordinate, end)))
-                .toList());
+                            try {
+                                current = queue.poll();
+                            } finally {
+                                lock.writeLock().unlock();
+                            }
+
+                            if (current != null) {
+                                if (end.equals(current.coordinate())) {
+                                    solveCord.set(current);
+                                } else {
+                                    visitedCoordinates.add(current.coordinate());
+
+                                    List<CoordinateNode<T>> neighbours =
+                                        getNeighbour(current.coordinate(), visitedCoordinates, maze)
+                                            .stream()
+                                            .map(coordinate -> new CoordinateNode<>(
+                                                current,
+                                                createNextCoordinate(coordinate, end)
+                                            ))
+                                            .toList();
+
+                                    lock.writeLock().lock();
+
+                                    try {
+                                        queue.addAll(neighbours);
+                                    } finally {
+                                        lock.writeLock().unlock();
+                                    }
+                                }
+                            }
+                        }, pool))
+                        .limit(THREADS_COUNT)
+                        .toArray(CompletableFuture[]::new))
+                    .join();
+            }
         }
 
-        return end.equals(current.coordinate()) ? buildPath(current) : null;
+        return solveCord.get() != null && end.equals(solveCord.get().coordinate()) ? buildPath(solveCord.get()) : null;
     }
 
     private static boolean areCoordinatesValid(Maze maze, Coordinate... coordinates) {
